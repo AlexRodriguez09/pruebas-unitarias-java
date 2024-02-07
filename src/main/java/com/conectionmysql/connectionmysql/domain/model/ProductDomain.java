@@ -30,7 +30,7 @@ public class ProductDomain {
     }
 
     public String validateNameProduct(String nameProduct){
-        if (nameProduct.matches("[a-zA-Z]")){
+        if (nameProduct.matches("[a-zA-Z]+")){
             return nameProduct;
         }
         throw new ProductException("Invalid name of product");

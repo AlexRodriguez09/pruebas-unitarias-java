@@ -17,10 +17,17 @@ public class ProductJPA {
     @Column(name = "type_product")
     private String typeProduct;
 
+    public ProductJPA( Integer idProduct,String nameProduct, String typeProduct) {
+        this.idProduct = idProduct;
+        this.nameProduct = nameProduct;
+        this.typeProduct = typeProduct;
+    }
+
     public ProductJPA( String nameProduct, String typeProduct) {
         this.nameProduct = nameProduct;
         this.typeProduct = typeProduct;
     }
+
 
     public ProductJPA() {
     }

@@ -4,6 +4,7 @@ import com.conectionmysql.connectionmysql.application.ports.input.IProductPort;
 import com.conectionmysql.connectionmysql.application.ports.output.IProductPersistence;
 import com.conectionmysql.connectionmysql.infraestructure.dto.ProductDTO;
 import com.conectionmysql.connectionmysql.infraestructure.jpa.ProductJPA;
+import org.mockito.internal.matchers.Null;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -26,8 +27,8 @@ public class ProductController {
     @PostMapping("")
     public ResponseEntity<String> postProduct(@RequestBody ProductDTO productDTO){
         String response = "Product created";
-        boolean result = iProductPort.createProduct(productDTO.getNameProduct(), productDTO.getTypeProduct());
-        if (!result){
+        ProductJPA result = iProductPort.createProduct(productDTO.getNameProduct(), productDTO.getTypeProduct());
+        if (result == null){
             response = "Invalid product";
         }
         return new ResponseEntity<>(response, HttpStatus.OK);

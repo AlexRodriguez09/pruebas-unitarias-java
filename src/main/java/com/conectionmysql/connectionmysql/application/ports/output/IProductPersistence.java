@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface IProductPersistence {
 
-    boolean createProduct(ProductDomain productDomain);
+    ProductJPA createProduct(ProductDomain productDomain);
 
     boolean deleteProduct(Integer idProduct);
 
