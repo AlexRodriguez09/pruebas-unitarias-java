@@ -9,6 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -35,7 +36,7 @@ class ProductPortImplTest {
 
     @Test
     void createProduct() {
-        lenient().when(iProductPersistence.createProduct(any())).thenReturn(productJPA);
+        when(iProductPersistence.createProduct(any())).thenReturn(productJPA);
         assertEquals("Renta fija",iProductPersistence.createProduct(productDomain).getTypeProduct());
         verify(iProductPersistence,times(1)).createProduct(any());
         assertEquals(productJPA,productPort.createProduct("Producto","Renta fija"));
@@ -43,7 +44,7 @@ class ProductPortImplTest {
 
     @Test
     void updateProduct() {
-        lenient().when(iProductPersistence.getProductID(anyInt())).thenReturn(productJPA);
+        when(iProductPersistence.getProductID(anyInt())).thenReturn(productJPA);
         //doNothing().when(iProductPersistence.updateProduct(anyInt(),any()));
         boolean result = productPort.updateProduct(anyInt(),"Producto","Renta fija");
         assertTrue(result);

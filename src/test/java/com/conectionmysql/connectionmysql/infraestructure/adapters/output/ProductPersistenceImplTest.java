@@ -7,8 +7,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
@@ -27,8 +26,12 @@ class ProductPersistenceImplTest {
     @InjectMocks
     private ProductPersistenceImpl productPersistence;
 
+    @Captor
+    ArgumentCaptor<ProductJPA> argumentCaptor;
+
     private ProductJPA productJPA;
     private ProductDomain productDomain;
+
 
     @BeforeEach
     void setUp() {
@@ -50,6 +53,9 @@ class ProductPersistenceImplTest {
         assertEquals(actualProductJPA, iProductRepository.save(productJPA));
 
         verify(iProductRepository,times(1)).save(productJPA);
+        verify(iProductRepository,times(2)).save(argumentCaptor.capture());
+        assertEquals(actualProductJPA,argumentCaptor.getValue() );
+
     }
 
     @Test
@@ -63,7 +69,7 @@ class ProductPersistenceImplTest {
 
     @Test
     void deleteProduct() {
-        lenient().doNothing().when(iProductRepository).deleteById(anyInt());
+        doNothing().when(iProductRepository).deleteById(anyInt());
         assertTrue(productPersistence.deleteProduct(anyInt()));
 
     }

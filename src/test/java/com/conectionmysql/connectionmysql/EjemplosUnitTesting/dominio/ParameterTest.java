@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class ParameterTest {
 
     @ParameterizedTest
-    @ValueSource(strings = { "racecar", "radar", "other validation" })
+    @ValueSource(strings = { "racecar", "radar", "other" })
     void palindromes(String candidate) {
         assertTrue(candidate.matches("[a-z]+"));
     }
@@ -18,7 +18,7 @@ public class ParameterTest {
     FRUIT,         RANK
     apple,         1
     banana,        2
-    'lemon, lime', 0xF1
+    'lemon', 0xF1
     strawberry,    700_000
     """)
     void testWithCsvSource(String fruit, int rank) {

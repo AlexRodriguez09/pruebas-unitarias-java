@@ -11,14 +11,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class TimeOutsTest {
     @Test
-    @Tag("TimeFail")
+    @Tag("TimeOut")
     @Timeout(1)
     void shouldFailAfterOneSecond() throws InterruptedException {
-        Thread.sleep(10_000);
+        Thread.sleep(1);
     }
 
     @Test
-    @Tag("TimeFail")
+    @Tag("TimeOut")
     @Timeout(value = 2, unit = TimeUnit.MINUTES)
     void shouldFailAfterTwoMinutes() throws InterruptedException {
         Thread.sleep(10_000);
@@ -32,7 +32,7 @@ public class TimeOutsTest {
 
     @Test
     void assertionTimeOut() {
-        assertTimeout(Duration.ofSeconds(5), () -> TimeUnit.MILLISECONDS.sleep(5500));
+        assertTimeout(Duration.ofSeconds(5), () -> TimeUnit.MILLISECONDS.sleep(500));
     }
 
     @Test

@@ -26,12 +26,12 @@ public class ProductController {
 
     @PostMapping("")
     public ResponseEntity<String> postProduct(@RequestBody ProductDTO productDTO){
-        String response = "Product created";
+        ResponseEntity<String> responseEntity = new ResponseEntity<>("Product created",HttpStatus.CREATED);
         ProductJPA result = iProductPort.createProduct(productDTO.getNameProduct(), productDTO.getTypeProduct());
         if (result == null){
-            response = "Invalid product";
+            responseEntity = new ResponseEntity<>("Invalid product", HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return responseEntity;
     }
 
     @PutMapping("")

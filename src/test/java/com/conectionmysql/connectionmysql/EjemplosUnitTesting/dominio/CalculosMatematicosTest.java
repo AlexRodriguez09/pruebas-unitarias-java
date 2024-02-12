@@ -3,6 +3,10 @@ package com.conectionmysql.connectionmysql.EjemplosUnitTesting.dominio;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledOnJre;
+import org.junit.jupiter.api.condition.DisabledOnOs;
+import org.junit.jupiter.api.condition.EnabledOnOs;
+import org.junit.jupiter.api.condition.OS;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -55,6 +59,7 @@ class CalculosMatematicosTest {
     @Test
     @DisplayName("Assert Not Null")
     void assertNotNullEjemplo(){
+        CalculosMatematicosAssertions calculosMatematicosAssertions = new CalculosMatematicosAssertions();
         assertNotNull(calculosMatematicosAssertions);
     }
 
@@ -86,6 +91,12 @@ class CalculosMatematicosTest {
                 () -> assertTrue(calculosMatematicosAssertions.esPar(2)),
                 () -> assertFalse(calculosMatematicosAssertions.esPar(3))
         );
+    }
+
+    @Test
+    @EnabledOnOs({OS.WINDOWS, OS.MAC})
+    public void shouldRunBothWindowsAndMac() {
+        //...
     }
 
 }
