@@ -48,7 +48,7 @@ public class ProductController {
     public ResponseEntity<String> deleteProduct(@PathVariable Integer id){
         String response = "Deleted";
         if(!iProductPersistence.deleteProduct(id)){
-            response = "Producto don't exists";
+            response = "Product don't exists";
         }
         return new ResponseEntity<>(response, HttpStatus.OK);
 
