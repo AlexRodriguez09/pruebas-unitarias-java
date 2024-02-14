@@ -36,3 +36,7 @@ jobs:
         run: |
           echo "coverage = ${{ steps.jacoco.outputs.coverage }}"
           echo "branch coverage = ${{ steps.jacoco.outputs.branches }}"
+
+      - name: Finalizando
+        run: |
+          echo "Finalizando"
