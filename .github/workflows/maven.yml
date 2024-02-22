@@ -45,4 +45,4 @@ jobs:
 
     - name: Cat
       run: |
-        ls -la
+        cat config.json
