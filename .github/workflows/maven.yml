@@ -36,7 +36,7 @@ jobs:
         {
           "auths": {
             "registry.nuamexchange.com": {
-              "username": "$(echo -n :${{ secrets.HARBOR_USERNAME }} | base64)"
+              "username": "$(echo -n :${{ secrets.HARBOR_USERNAME }} | base64)",
               "password": "$(echo -n :${{ secrets.HARBOR_PASSWORD }} | base64)"
             }
           }
@@ -46,3 +46,16 @@ jobs:
     - name: Cat
       run: |
         cat config.json
+
+    - name: Build and push an image
+      run: |
+        docker run \
+          -v $(pwd):/workspace \
+          -v $(pwd)/config.json:/kaniko/.docker/config.json:ro \
+          gcr.io/kaniko-project/executor:latest \
+            --context . \
+            --dockerfile Dockerfile \
+            --destination registry.nuamexchange.com/test-devops/jar-artifact:${{ github.run_number }} \
+            --cache=true \
+            --cache-repo registry.nuamexchange.com/test-devops/jar-artifact -cache
+
