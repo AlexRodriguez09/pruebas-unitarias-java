@@ -30,6 +30,19 @@ jobs:
         username: ${{ secrets.HARBOR_USERNAME  }}
         password: ${{ secrets.HARBOR_PASSWORD }}
 
+    - name: Generate a config.json
+      run: |
+        cat <<JSON > config.json
+        {
+          "auths": {
+            "registry.nuamexchange.com": {
+              "username": "$(echo -n :${{ secrets.HARBOR_USERNAME }} | base64)"
+              "password": "$(echo -n :${{ secrets.HARBOR_PASSWORD }} | base64)"
+            }
+          }
+        }
+        JSON
+
     - name: Build and push an image
       run: |
         docker run \
