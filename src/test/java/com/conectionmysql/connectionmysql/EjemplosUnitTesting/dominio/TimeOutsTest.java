@@ -32,7 +32,7 @@ public class TimeOutsTest {
 
     @Test
     void assertionTimeOut() {
-        assertTimeout(Duration.ofSeconds(5), () -> TimeUnit.MILLISECONDS.sleep(5500));
+        assertTimeout(Duration.ofSeconds(5), () -> TimeUnit.MILLISECONDS.sleep(5));
     }
 
     @Test
