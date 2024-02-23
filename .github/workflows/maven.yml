@@ -51,5 +51,5 @@ jobs:
           -v `pwd`:/workspace \
           gcr.io/kaniko-project/executor:debug \
           --dockerfile=Dockerfile \
-          --destination $DOCKER_USERNAME/unit-testing:latest
+          --destination ${secrets.DOCKER_USER}/unit-testing:latest
 
