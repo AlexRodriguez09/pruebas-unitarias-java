@@ -29,7 +29,7 @@ jobs:
 
     - name: Generate a config.json
       run: |
-        AUTH=$(echo -n "${secrets.DOCKER_USER}:${secrets.DOCKER_TOKEN}" | base64)
+        AUTH=$(echo -n "${{secrets.DOCKER_USER}}:${{secrets.DOCKER_TOKEN}}" | base64)
         cat <<EOF > config.json
         {
           "auths": {
@@ -51,5 +51,5 @@ jobs:
           -v `pwd`:/workspace \
           gcr.io/kaniko-project/executor:debug \
           --dockerfile=Dockerfile \
-          --destination ${secrets.DOCKER_USER}/unit-testing:latest
+          --destination ${{secrets.DOCKER_USER}}/unit-testing:latest
 
