@@ -29,13 +29,11 @@ jobs:
 
     - name: Generate a config.json
       run: |
-        DOCKER_USERNAME=${{ secrets.DOCKER_USER }}
-        DOCKER_PASSWORD=${{ secrets.DOCKER_TOKEN }}
-        AUTH=$(echo -n "${DOCKER_USERNAME}:${DOCKER_PASSWORD}" | base64)
+        AUTH=$(echo -n "${secrets.DOCKER_USER}:${secrets.DOCKER_TOKEN}" | base64)
         cat <<EOF > config.json
         {
           "auths": {
-            "https://index.docker.io/v1/": {
+            "https://index.docker.io/v2/": {
               "auth": "${AUTH}"
             }
           }
@@ -53,5 +51,5 @@ jobs:
           -v `pwd`:/workspace \
           gcr.io/kaniko-project/executor:debug \
           --dockerfile=Dockerfile \
-          --destination $DOCKER_USERNAME/unit-testing:1.0
+          --destination $DOCKER_USERNAME/unit-testing:latest
 
