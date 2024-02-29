@@ -4,7 +4,6 @@ import com.conectionmysql.connectionmysql.application.ports.input.IProductPort;
 import com.conectionmysql.connectionmysql.application.ports.output.IProductPersistence;
 import com.conectionmysql.connectionmysql.domain.model.ProductDomain;
 import com.conectionmysql.connectionmysql.infraestructure.jpa.ProductJPA;
-import org.mockito.internal.matchers.Null;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
