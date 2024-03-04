@@ -3,7 +3,6 @@ package com.conectionmysql.connectionmysql;
 import com.conectionmysql.connectionmysql.application.ports.input.IProductPort;
 import com.conectionmysql.connectionmysql.application.ports.output.IProductPersistence;
 import com.conectionmysql.connectionmysql.application.service.ProductPortImpl;
-import com.conectionmysql.connectionmysql.infraestructure.adapters.input.ProductController;
 import com.conectionmysql.connectionmysql.infraestructure.adapters.output.ProductPersistenceImpl;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -25,7 +24,7 @@ public class ConnectionMysqlApplication {
 		IProductPersistence productPersistence = new ProductPersistenceImpl();
 		IProductPort productPort = new ProductPortImpl(productPersistence);
 
-		ProductController productController = new ProductController(productPort,productPersistence);
+		//ProductController productController = new ProductController(productPort,productPersistence);
 
 	}
 
