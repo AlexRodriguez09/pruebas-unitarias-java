@@ -19,22 +19,24 @@ public class ProductPortImpl implements IProductPort {
     }
 
     @Override
-    public ProductJPA createProduct(String nameProduct, String typeProduct) {
+    public void createProduct(String nameProduct, String typeProduct) {
         Optional<ProductDomain> optionalProductDomain = Optional.of(new ProductDomain(nameProduct, typeProduct));
         ProductDomain productDomain = optionalProductDomain.orElseThrow(IllegalArgumentException::new);
-        return iProductPersistence.createProduct(productDomain);
+        try{
+            iProductPersistence.createProduct(productDomain);
+        }catch(Exception exception){
+            throw new RuntimeException("No se pudo crear producto");
+        }
     }
 
     @Override
-    public boolean updateProduct(Integer idProduct, String nameProduct, String typeProduct) {
-        boolean result = true;
+    public void updateProduct(Integer idProduct, String nameProduct, String typeProduct) {
         ProductJPA productJPA = existProduct(idProduct);
         if (productJPA != null){
             iProductPersistence.updateProduct(idProduct, new ProductDomain(nameProduct,typeProduct));
         }else{
-            result = false;
+            throw new RuntimeException("El producto no existe en la base de datos");
         }
-        return result;
 
     }
 

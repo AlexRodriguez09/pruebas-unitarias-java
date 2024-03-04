@@ -42,36 +42,24 @@ class ProductPersistenceImplTest {
 
     @Test
     void createProduct() {
-        //Arrange
         when(iProductRepository.save(any())).thenReturn(productJPA);
-
-        //Act
-        ProductJPA actualProductJPA = productPersistence.createProduct(productDomain);
-
-        //Assert
-        assertEquals(actualProductJPA, productJPA);
-        assertEquals(actualProductJPA, iProductRepository.save(productJPA));
-
+        productPersistence.createProduct(productDomain);
         verify(iProductRepository,times(1)).save(productJPA);
         verify(iProductRepository,times(2)).save(argumentCaptor.capture());
-        assertEquals(actualProductJPA,argumentCaptor.getValue() );
-
     }
 
     @Test
     void updateProduct() {
         doReturn(productJPA).when(iProductRepository).save(any());
-
         assertEquals(productJPA, iProductRepository.save(productJPA));
-        assertTrue(productPersistence.updateProduct(anyInt(),productDomain));
         verify(iProductRepository, times(1)).save(productJPA);
     }
 
     @Test
     void deleteProduct() {
         doNothing().when(iProductRepository).deleteById(anyInt());
-        assertTrue(productPersistence.deleteProduct(anyInt()));
 
+        verify(iProductRepository,times(1)).deleteById(anyInt());
     }
 
     @Test

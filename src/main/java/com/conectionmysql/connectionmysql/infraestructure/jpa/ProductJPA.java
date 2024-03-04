@@ -3,7 +3,7 @@ package com.conectionmysql.connectionmysql.infraestructure.jpa;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "product", catalog ="market")
+@Table(name = "product")
 public class ProductJPA {
 
     @Id

@@ -16,8 +16,8 @@ import java.util.List;
 @RequestMapping(path = "/v1/product")
 public class ProductController {
 
-    private IProductPort iProductPort;
-    private IProductPersistence iProductPersistence;
+    private final IProductPort iProductPort;
+    private final IProductPersistence iProductPersistence;
 
     public ProductController(IProductPort iProductPort, IProductPersistence iProductPersistence) {
         this.iProductPort = iProductPort;
@@ -27,29 +27,21 @@ public class ProductController {
     @PostMapping("")
     public ResponseEntity<String> postProduct(@RequestBody ProductDTO productDTO){
         ResponseEntity<String> responseEntity = new ResponseEntity<>("Product created",HttpStatus.CREATED);
-        ProductJPA result = iProductPort.createProduct(productDTO.getNameProduct(), productDTO.getTypeProduct());
-        if (result == null){
-            responseEntity = new ResponseEntity<>("Invalid product", HttpStatus.BAD_REQUEST);
-        }
+        iProductPort.createProduct(productDTO.getNameProduct(), productDTO.getTypeProduct());
         return responseEntity;
     }
 
     @PutMapping("")
     public ResponseEntity<String> putProduct(@RequestBody ProductDTO productDTO){
         String response = "Product updated";
-        boolean result = iProductPort.updateProduct(productDTO.getIdProduct(), productDTO.getNameProduct(), productDTO.getTypeProduct());
-        if (!result){
-            response = "Invalid product";
-        }
+        iProductPort.updateProduct(productDTO.getIdProduct(), productDTO.getNameProduct(), productDTO.getTypeProduct());
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteProduct(@PathVariable Integer id){
         String response = "Deleted";
-        if(!iProductPersistence.deleteProduct(id)){
-            response = "Product don't exists";
-        }
+        iProductPersistence.deleteProduct(id);
         return new ResponseEntity<>(response, HttpStatus.OK);
 
 

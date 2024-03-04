@@ -4,6 +4,6 @@ import com.conectionmysql.connectionmysql.infraestructure.jpa.ProductJPA;
 
 public interface IProductPort {
 
-    ProductJPA createProduct(String nameProduct, String typeProduct);
-    boolean updateProduct(Integer idProduct, String nameProduct, String typeProduct);
+    void createProduct(String nameProduct, String typeProduct);
+    void updateProduct(Integer idProduct, String nameProduct, String typeProduct);
 }

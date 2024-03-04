@@ -46,27 +46,18 @@ class ProductControllerTest {
 
     @Test
     void postProduct() {
-        when(iProductPort.createProduct(anyString(),anyString())).thenReturn(productJPA);
+        doNothing().when(iProductPort).createProduct(anyString(),anyString());
         ResponseEntity<String> response = productController.postProduct(productDTO);
         assertEquals("Product created",response.getBody());
         assertEquals(201,response.getStatusCode().value());
-
         verify(iProductPort,times(1)).createProduct(anyString(),anyString());
     }
 
-    @Test
-    void postProductInvalid() {
-        when(iProductPort.createProduct(anyString(),anyString())).thenReturn(null);
-        ResponseEntity<String> response = productController.postProduct(productDTO);
-        assertEquals("Invalid product",response.getBody());
-        assertEquals(400,response.getStatusCode().value());
 
-        verify(iProductPort,times(1)).createProduct(anyString(),anyString());
-    }
 
     @Test
     void putProduct() {
-        when(iProductPort.updateProduct(anyInt(),anyString(),anyString())).thenReturn(true);
+        doNothing().when(iProductPort).updateProduct(anyInt(),anyString(),anyString());
         ResponseEntity<String> response = productController.putProduct(productDTO);
         assertEquals("Product updated",response.getBody());
         assertEquals(200, HttpStatus.OK.value());
@@ -75,33 +66,12 @@ class ProductControllerTest {
 
     }
 
-    @Test
-    void putProductInvalid() {
-        when(iProductPort.updateProduct(anyInt(),anyString(),anyString())).thenReturn(false);
-        ResponseEntity<String> response = productController.putProduct(productDTO);
-        assertEquals("Invalid product",response.getBody());
-        assertEquals(200, HttpStatus.OK.value());
-
-        verify(iProductPort,times(1)).updateProduct(anyInt(),anyString(),anyString());
-
-    }
 
     @Test
     void deleteProduct() {
-        when(iProductPersistence.deleteProduct(anyInt())).thenReturn(true);
         ResponseEntity<String> response = productController.deleteProduct(12);
         assertEquals("Deleted",response.getBody());
         assertEquals(200,HttpStatus.OK.value());
-        verify(iProductPersistence,times(1)).deleteProduct(anyInt());
-    }
-
-    @Test
-    void deleteProductDontExists() {
-        when(iProductPersistence.deleteProduct(anyInt())).thenReturn(false);
-        ResponseEntity<String> response = productController.deleteProduct(12);
-        assertEquals("Product don't exists",response.getBody());
-        assertEquals(200,HttpStatus.OK.value());
-
         verify(iProductPersistence,times(1)).deleteProduct(anyInt());
     }
 

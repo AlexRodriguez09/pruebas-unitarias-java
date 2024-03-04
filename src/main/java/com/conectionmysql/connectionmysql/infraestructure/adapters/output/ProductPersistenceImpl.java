@@ -14,21 +14,18 @@ public class ProductPersistenceImpl implements IProductPersistence {
     @Autowired
     private IProductRepository iProductRepository;
     @Override
-    public ProductJPA createProduct(ProductDomain productDomain) {
-        return iProductRepository.save(new ProductJPA(productDomain.getNameProduct(), productDomain.getTypeProduct()));
+    public void createProduct(ProductDomain productDomain) {
+       iProductRepository.save(new ProductJPA(productDomain.getNameProduct(), productDomain.getTypeProduct()));
     }
 
     @Override
-    public boolean updateProduct(Integer idProduct, ProductDomain productDomain) {
+    public void updateProduct(Integer idProduct, ProductDomain productDomain) {
         iProductRepository.save(new ProductJPA(idProduct,productDomain.getNameProduct(), productDomain.getTypeProduct()));
-        return  true;
     }
 
     @Override
-    public boolean deleteProduct(Integer idProduct) {
+    public void deleteProduct(Integer idProduct) {
         iProductRepository.deleteById(idProduct);
-        return  true;
-
     }
 
     @Override

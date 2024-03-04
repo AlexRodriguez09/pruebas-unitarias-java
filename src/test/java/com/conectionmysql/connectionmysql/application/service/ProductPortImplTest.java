@@ -36,27 +36,23 @@ class ProductPortImplTest {
 
     @Test
     void createProduct() {
-        when(iProductPersistence.createProduct(any())).thenReturn(productJPA);
-        assertEquals("Renta fija",iProductPersistence.createProduct(productDomain).getTypeProduct());
+        doNothing().when(iProductPersistence).createProduct(any());
+        productPort.createProduct(anyString(),anyString());
         verify(iProductPersistence,times(1)).createProduct(any());
-        assertEquals(productJPA,productPort.createProduct("Producto","Renta fija"));
     }
 
     @Test
     void updateProduct() {
         when(iProductPersistence.getProductID(anyInt())).thenReturn(productJPA);
         //doNothing().when(iProductPersistence.updateProduct(anyInt(),any()));
-        boolean result = productPort.updateProduct(anyInt(),"Producto","Renta fija");
-        assertTrue(result);
+        productPort.updateProduct(anyInt(),"Producto","Renta fija");
+        verify(iProductPersistence,times(1)).updateProduct(anyInt(),any());
 
     }
 
     @Test
     void updateProductFailed() {
-        lenient().when(iProductPersistence.getProductID(anyInt())).thenReturn(null);
-        //doNothing().when(iProductPersistence.updateProduct(anyInt(),any()));
-        boolean result = productPort.updateProduct(anyInt(),"Producto","Renta fija");
-        assertFalse(result);
-
+        when(iProductPersistence.getProductID(anyInt())).thenReturn(null);
+        assertThrows(RuntimeException.class,() -> productPort.updateProduct(anyInt(),"Producto","Renta fija"));
     }
 }
