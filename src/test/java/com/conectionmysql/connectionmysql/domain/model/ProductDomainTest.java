@@ -3,6 +3,10 @@ package com.conectionmysql.connectionmysql.domain.model;
 import com.conectionmysql.connectionmysql.domain.exceptions.ProductException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.Spy;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class ProductDomainTest {
@@ -40,5 +44,24 @@ class ProductDomainTest {
     @Test
     void validatetypeProductInvalid() {
         assertThrows(ProductException.class,() -> productDomain.validatetypeProduct("Nombre Producto"));
+    }
+
+    @Mock
+    ProductDomain productDomainw;
+
+    @Spy
+    ProductDomain productDomaint = new ProductDomain("","");
+
+
+
+    @Test
+    void mockvsSpy(){
+        ProductDomain productDomainMock = Mockito.mock(ProductDomain.class);
+        productDomainMock.setNameProduct("Actualizado");
+        System.out.println(productDomainMock.getNameProduct());
+
+        ProductDomain productDomainSpy = Mockito.spy(new ProductDomain("Name","Renta fija"));
+        productDomainSpy.setNameProduct("Espia");
+        System.out.println(productDomainSpy.getNameProduct());
     }
 }

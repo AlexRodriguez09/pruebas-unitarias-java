@@ -16,6 +16,7 @@
 	<properties>
 		<java.version>17</java.version>
 	</properties>
+	git 
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -53,7 +54,6 @@
 			<artifactId>mockito-junit-jupiter</artifactId>
 		</dependency>
 
-
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter</artifactId>
@@ -63,6 +63,7 @@
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 		</dependency>
+
 
 	</dependencies>
 	<build>
