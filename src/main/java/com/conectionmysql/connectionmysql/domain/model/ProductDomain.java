@@ -10,6 +10,7 @@ public class ProductDomain {
 
     public ProductDomain(String nameProduct, String typeProduct) {
         this.nameProduct = validateNameProduct(nameProduct);
+        
         this.typeProduct = validatetypeProduct(typeProduct);
     }
 
