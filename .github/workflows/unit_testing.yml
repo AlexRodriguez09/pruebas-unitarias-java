@@ -3,7 +3,7 @@ name: Testing report
 on:
   push:
     branches:
-      - unit
+      - main
 
 permissions:
   id-token: write
@@ -42,6 +42,11 @@ jobs:
           echo "coverage = ${{ steps.jacoco.outputs.coverage }}"
           echo "branch coverage = ${{ steps.jacoco.outputs.branches }}"
 
-      - name: Finalizando
-        run: |
-          echo "Finalizando"
+      - name: Agregar comentario a Jira
+        uses: atlassian/jira-comment-action@v2
+        with:
+            server: https://nuamexchange.atlassian.net
+            username: alexander.rodriguez@nuamx.com
+            jira_api_token: ${{secrets.JIRA_TOKEN}}
+            issue: ARQPD-40
+            comment: "La cobertura de código para la rama 'X' es del ${{ steps.codecov.outputs.coverage }}%. \\ La cobertura de Ramificaciones para la rama 'X' es del ${{ steps.jacoco.outputs.branches }}%."
