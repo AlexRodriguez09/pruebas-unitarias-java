@@ -36,11 +36,11 @@ jobs:
         if: success() || failure()
         id: get_comment
         run: |
-          if [ "${{ steps.maven-test.conclusion}} == 'failure'" ]; then
+          if [ ${{ steps.maven-test.conclusion}} == failure ]; then
             echo "comment=Test unitarios fallaron \n \
             Resumen: \n \
             Algunas de las pruebas unitarias no pasaron la ejecución">> "$GITHUB_OUTPUT"
-          elif [ "${{ steps.jacoco.conclusion }}" == "failure" ]; then
+          elif [ ${{ steps.jacoco.conclusion }} == failure ]; then
              echo "comment=Cobertura de código no ha sido aprobada \n \
               Resumen cobertura de código: \n \
                 Cobertura de código: ${{ steps.jacoco.outputs.coverage }} \n \
@@ -57,24 +57,24 @@ jobs:
         if: success() || failure()
         run: |
           curl --request POST \
-          --url 'https://nuamexchange.atlassian.net/rest/api/3/issue/ARQPD-41/comment' \
-          --user 'alexander.rodriguez@nuamx.com:${{secrets.JIRA_TOKEN}}' \
+            --url 'https://nuamexchange.atlassian.net/rest/api/3/issue/ARQPD-41/comment' \
+            --user 'alexander.rodriguez@nuamx.com:${{secrets.JIRA_TOKEN}}' \
             --header 'Accept: application/json' \
             --header 'Content-Type: application/json' \
-          --data '{
-            "body": {
-              "content": [
-                {
-                  "content": [
+            --data '{
+              "body": {
+                "content": [
+                  {
+                    "content": [
                     {
                       "text": "${{steps.get_comment.outputs.comment}}",
                       "type": "text"
                     }
                   ],
                   "type": "paragraph"
-                }
-              ],
-              "type": "doc",
-              "version": 1
-            }
-          }'
+                  }
+                ],
+                "type": "doc",
+                "version": 1
+              }
+            }'
