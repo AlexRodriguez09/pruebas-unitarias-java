@@ -1,0 +1,49 @@
+name: Jira comment
+
+on:
+  push:
+    branches:
+      - junit-mockito
+
+jobs:
+  unit-teting:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Run unit tests with Maven
+        run: mvn test
+
+      - name: Generate JaCoCo Badge
+        uses: cicirello/jacoco-badge-generator@v2
+        id: jacoco
+        with:
+          generate-branches-badge: true
+          jacoco-csv-file: target/site/jacoco/jacoco.csv
+          fail-if-coverage-less-than: 50
+          fail-if-branches-less-than: 50
+
+      - name: Send notification
+        if: success() || failure()
+        id: get_comment
+        run: |
+          if [ "${{ steps.maven-test.conclusion}} == 'failure'" ]; then
+            echo "comment=Fallaron las pruebas unitarias" >> "$GITHUB_OUTPUT"
+          elif [ "${{ steps.jacoco.conclusion }}" == "failure" ]; then
+            echo "comment=Revise el nivel de cobertura" >> "$GITHUB_OUTPUT"
+          else
+            echo "comment=Pasaron pruebas unitarias" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Curl
+        if: success() || failure()
+        run: |
+          echo "${{steps.get_comment.outputs.comment}}"

@@ -1,0 +1,15 @@
+name: Regex
+
+on:
+  push:
+    branches:
+      - junit-mockito
+
+jobs:
+  comment:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get context
+        run: |
+          echo {{github.ref_name}}
