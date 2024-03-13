@@ -3,7 +3,8 @@ name: Jira comment
 on:
   push:
     branches:
-      - junit-mockito
+#      - junit-mockito
+      - main
 
 jobs:
   unit-teting:

@@ -12,4 +12,4 @@ jobs:
     steps:
       - name: Get context
         run: |
-          echo {{github.ref_name}}
+          echo ${{github.ref_name}}
