@@ -20,6 +20,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Run unit tests with Maven
+        id: maven-test
         run: mvn test
 
       - name: Generate JaCoCo Badge
