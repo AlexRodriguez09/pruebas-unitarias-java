@@ -3,7 +3,7 @@ name: Regex
 on:
   push:
     branches:
-      - junit-mockito
+      - main
 
 jobs:
   comment:

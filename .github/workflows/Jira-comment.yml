@@ -3,8 +3,7 @@ name: Jira comment
 on:
   push:
     branches:
-#      - junit-mockito
-      - main
+      - junit-mockito
 
 jobs:
   unit-teting:
@@ -37,11 +36,31 @@ jobs:
         id: get_comment
         run: |
           if [ "${{ steps.maven-test.conclusion}} == 'failure'" ]; then
-            echo "comment=Fallaron las pruebas unitarias" >> "$GITHUB_OUTPUT"
+          {
+            echo 'comment<<EOF'
+            Test unitarios fallaron.
+            Resumen:
+            Algunas de las pruebas unitarias no pasaron.
+            echo EOF
+          } >> "$GITHUB_OUTPUT"
           elif [ "${{ steps.jacoco.conclusion }}" == "failure" ]; then
-            echo "comment=Revise el nivel de cobertura" >> "$GITHUB_OUTPUT"
+           {
+             echo 'comment<<EOF'
+             Cobertura de código no aprobada.
+             Resumen cobertura de código:
+             Cobertura de código: ${{ steps.jacoco.outputs.coverage }}
+             Cobertura de ramificaciones: ${{ steps.jacoco.outputs.branches }}
+             echo EOF
+           } >> "$GITHUB_OUTPUT"
           else
-            echo "comment=Pasaron pruebas unitarias" >> "$GITHUB_OUTPUT"
+            {
+             echo 'comment<<EOF'
+             Pruebas unitarias exitosas, cumplen con los criterios de aceptación.
+             Resumen cobertura de código:
+             Cobertura de código: ${{ steps.jacoco.outputs.coverage }}
+             Cobertura de ramificaciones: ${{ steps.jacoco.outputs.branches }}
+             echo EOF
+           } >> "$GITHUB_OUTPUT"
           fi
 
       - name: Curl
