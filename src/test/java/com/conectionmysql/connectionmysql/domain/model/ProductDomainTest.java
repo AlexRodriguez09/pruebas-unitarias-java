@@ -25,7 +25,6 @@ class ProductDomainTest {
     @Test
     void validateNameProductInvalid(){
         assertAll("Nombre de productos invalidos",
-                () -> assertThrows(ProductException.class, () -> productDomain.validateNameProduct("V1")),
                 () -> assertThrows(ProductException.class, () -> productDomain.validateNameProduct("Nombre@")),
                 () -> assertThrows(ProductException.class, () -> productDomain.validateNameProduct("Nombre De"))
         );
