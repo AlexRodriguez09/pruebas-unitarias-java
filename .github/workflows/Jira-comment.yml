@@ -36,21 +36,19 @@ jobs:
         id: get_comment
         run: |
           if [ "${{ steps.maven-test.conclusion}} == 'failure'" ]; then
-            echo 'comment=Test unitarios fallaron\nResumen\nAlgunas de las pruebas unitarias no pasaron\n' >> "$GITHUB_OUTPUT"
+            echo "comment=Test unitarios fallaron\n \
+            Resumen\n \
+            Algunas de las pruebas unitarias no pasaron">> "$GITHUB_OUTPUT"
           elif [ "${{ steps.jacoco.conclusion }}" == "failure" ]; then
-             {echo 'comment=Cobertura de código no aprobada
-              Resumen cobertura de código:
-                Cobertura de código: ${{ steps.jacoco.outputs.coverage }}
-                Cobertura de ramificaciones: ${{ steps.jacoco.outputs.branches }}
-             echo}>> "$GITHUB_OUTPUT"
+             echo "comment=Cobertura de código no aprobada\n \
+              Resumen cobertura de código:\n \
+                Cobertura de código: ${{ steps.jacoco.outputs.coverage }} \n \
+                Cobertura de ramificaciones: ${{ steps.jacoco.outputs.branches }} ">> "$GITHUB_OUTPUT"
           else
-             echo 'comment<<EOF'
-             Pruebas unitarias exitosas, cumplen con los criterios de aceptación.
-             Resumen cobertura de código:
-             Cobertura de código: ${{ steps.jacoco.outputs.coverage }}
-             Cobertura de ramificaciones: ${{ steps.jacoco.outputs.branches }}
-             echo EOF
-            >> "$GITHUB_OUTPUT"
+             echo "comment=Pruebas unitarias exitosas, cumplen con los criterios de aceptación. \
+             Resumen cobertura de código: \n \
+             Cobertura de código: ${{ steps.jacoco.outputs.coverage }} \n \
+             Cobertura de ramificaciones: ${{ steps.jacoco.outputs.branches }}" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Curl
