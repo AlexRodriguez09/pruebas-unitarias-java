@@ -36,15 +36,13 @@ jobs:
         id: get_comment
         run: |
           if [ "${{ steps.maven-test.conclusion}} == 'failure'" ]; then
-            {echo -e 'comment<<EOF\nTest unitarios fallaron\n\nResumen\nAlgunas de las pruebas unitarias no pasaron\nEOF' >> "$GITHUB_OUTPUT"}
+            echo 'comment=Test unitarios fallaron\nResumen\nAlgunas de las pruebas unitarias no pasaron\n' >> "$GITHUB_OUTPUT"
           elif [ "${{ steps.jacoco.conclusion }}" == "failure" ]; then
-             echo 'comment<<EOF'
-             Cobertura de código no aprobada.
-             Resumen cobertura de código:
-             Cobertura de código: ${{ steps.jacoco.outputs.coverage }}
-             Cobertura de ramificaciones: ${{ steps.jacoco.outputs.branches }}
-             echo EOF
-            >> "$GITHUB_OUTPUT"
+             {echo 'comment=Cobertura de código no aprobada
+              Resumen cobertura de código:
+                Cobertura de código: ${{ steps.jacoco.outputs.coverage }}
+                Cobertura de ramificaciones: ${{ steps.jacoco.outputs.branches }}
+             echo}>> "$GITHUB_OUTPUT"
           else
              echo 'comment<<EOF'
              Pruebas unitarias exitosas, cumplen con los criterios de aceptación.
