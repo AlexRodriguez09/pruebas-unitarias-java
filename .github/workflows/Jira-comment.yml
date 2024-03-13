@@ -36,12 +36,13 @@ jobs:
         id: get_comment
         run: |
           if [ "${{ steps.maven-test.conclusion}} == 'failure'" ]; then
+            {
             echo 'comment<<EOF'
-            Test unitarios fallaron.
-            Resumen:
-            Algunas de las pruebas unitarias no pasaron.
+              Test unitarios fallaron.
+              Resumen:
+              Algunas de las pruebas unitarias no pasaron.
             echo EOF
-           >> "$GITHUB_OUTPUT"
+            } echo -e '\n'>> "$GITHUB_OUTPUT"
           elif [ "${{ steps.jacoco.conclusion }}" == "failure" ]; then
            
              echo 'comment<<EOF'
