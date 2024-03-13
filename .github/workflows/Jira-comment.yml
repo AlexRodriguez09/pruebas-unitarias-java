@@ -56,7 +56,6 @@ jobs:
       - name: Curl
         if: success() || failure()
         run: |
-          echo ""
           curl --request POST \
           --url 'https://nuamexchange.atlassian.net/rest/api/3/issue/ARQPD-41/comment' \
           --user 'alexander.rodriguez@nuamx.com:${{secrets.JIRA_TOKEN}}' \
