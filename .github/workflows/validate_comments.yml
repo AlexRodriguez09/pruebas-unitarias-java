@@ -13,11 +13,7 @@ jobs:
       - name: Get the approval comment
         id: get_comment
         run: |
-          echo "comment=minor">> "$GITHUB_OUTPUT"
-
-      - name: Show approval comment
-        id: show_comment
-        run: echo "${{ steps.get_comment.outputs.comment }}"
+          echo "comment=major">> "$GITHUB_OUTPUT"
 
       - name: Get issue
         id: get_issue
@@ -37,7 +33,7 @@ jobs:
         id: minor
         if: contains(steps.get_comment.outputs.comment, 'minor')
         run: |
-          ./error.sh
+          echo "Funciona"
 
       - name: Generate bumping version as major
         id: major
@@ -94,3 +90,4 @@ jobs:
         if: success() || failure()
         run: |
           echo "${{steps.get_comment_jira.outputs.comment}}"
+          echo "${{steps.get_issue.outputs.issue}}"
