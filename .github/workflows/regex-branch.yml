@@ -3,7 +3,7 @@ name: Regex
 on:
   push:
     branches:
-      - release/ARQPD-41
+      - main
 
 jobs:
   comment:

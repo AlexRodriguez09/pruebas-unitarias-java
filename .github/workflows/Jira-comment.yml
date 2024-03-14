@@ -1,9 +1,9 @@
-name: Jira comment
+name: Jira comment - Regex
 
 on:
   push:
     branches:
-      - main
+      - release/ARQPD-41
 
 jobs:
   unit-teting:
@@ -18,6 +18,12 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+
+      - name: Get issue
+        id: get_issue
+        run: |
+          var=${{github.ref_name}}
+          echo "issue=$(echo $var | sed -E 's#.*/##')">> "$GITHUB_OUTPUT"
 
       - name: Run unit tests with Maven
         id: maven-test
@@ -55,11 +61,12 @@ jobs:
              Cobertura de ramificaciones: $branches % " >> "$GITHUB_OUTPUT"
           fi
 
+
       - name: Curl
         if: success() || failure()
         run: |
           curl --request POST \
-            --url 'https://nuamexchange.atlassian.net/rest/api/3/issue/ARQPD-41/comment' \
+            --url 'https://nuamexchange.atlassian.net/rest/api/3/issue/${{steps.get_issue.outputs.issue}}/comment' \
             --user 'alexander.rodriguez@nuamx.com:${{secrets.JIRA_TOKEN}}' \
             --header 'Accept: application/json' \
             --header 'Content-Type: application/json' \
