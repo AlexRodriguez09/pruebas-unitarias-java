@@ -7,22 +7,12 @@ on:
 
 jobs:
   build:
-    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
-      - name: 'Checkout Repo'
-        uses: actions/checkout@v4
-        with:
-          path: java_app
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 18
 
       - name: Get the approval comment
         id: get_comment
         run: |
-          cd java_app
           echo "comment=patch">> "$GITHUB_OUTPUT"
 
       - name: Show approval comment
