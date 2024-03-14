@@ -46,7 +46,7 @@ jobs:
       - name: Compile the Project
         id: compile
         run: |
-          ./error.sh
+          echo "Funciona"
 
       #Posible fallo
       - name: Build with Maven
@@ -72,6 +72,8 @@ jobs:
           ejecuciones["compilar"]="${{ steps.compile.conclusion}}"
           ejecuciones["empaquetar"]="${{ steps.package.conclusion}}"
           ejecuciones["kaniko"]="${{ steps.kaniko.conclusion}}" 
+          
+          var=$"Empaquetado exitoso, se cargo la imagen en Harbor de manera correcta"
           
           for clave in "${!ejecuciones[@]}"; do
           if [[ "${ejecuciones[$clave]}" == "failure" ]]; then
