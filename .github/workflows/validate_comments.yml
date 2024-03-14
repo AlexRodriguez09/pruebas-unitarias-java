@@ -81,18 +81,20 @@ jobs:
             if [[ "$clave" == "patch" || "$clave" == "minor" || "$clave" == "major" ]]; then
               # Evaluar si el valor de la clave es "failure"
               if [[ "${ejecuciones[$clave]}" == "failure" ]]; then
-                echo "comment=El tipo de version $clave no se puede generar revise el archivo pom.xml o verifique el workflow" >> "$GITHUB_OUTPUT"
+                var=$"El tipo de version $clave no se puede generar revise el archivo pom.xml o verifique el workflow"
               fi
             elif [[ "$clave" == "compilar" || "$clave" == "empaquetar" ]]; then
               if [[ "${ejecuciones[$clave]}" == "failure" ]]; then
-                echo "comment=Error al $clave, por favor verifique el workflow y solucione el error" >> "$GITHUB_OUTPUT"
+                var=$"Error al $clave, por favor verifique el workflow y solucione el error"
               fi
             elif [[ "$clave" == "build"  ]]; then
               if [[ "${ejecuciones[$clave]}" == "failure" ]]; then
-                echo "comment=Error al crear la imagen de Kaniko, revise el workflow y de ser necesario actualice las credenciales">> "$GITHUB_OUTPUT"
+                var=$"Error al crear la imagen de Kaniko, revise el workflow y de ser necesario actualice las credenciales"
               fi
             fi
           done
+          echo "$var"
+          echo "comment=$var" >> "$GITHUB_OUTPUT" 
 
       - name: Send notification
         if: success() || failure()
