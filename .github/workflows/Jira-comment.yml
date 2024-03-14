@@ -3,7 +3,7 @@ name: Jira comment - Regex
 on:
   push:
     branches:
-      - release/ARQPD-41
+      - main
 
 jobs:
   unit-teting:

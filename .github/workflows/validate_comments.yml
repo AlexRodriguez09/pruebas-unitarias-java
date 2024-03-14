@@ -1,0 +1,111 @@
+name: Build
+
+on:
+  push:
+    branches:
+     - release/ARQPD-41
+
+jobs:
+  build:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout Repo'
+        uses: actions/checkout@v4
+        with:
+          path: java_app
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Get the approval comment
+        id: get_comment
+        run: |
+          cd java_app
+          echo "comment=patch">> "$GITHUB_OUTPUT"
+
+      - name: Show approval comment
+        id: show_comment
+        run: echo "${{ steps.get_comment.outputs.comment }}"
+
+      - name: Get issue
+        id: get_issue
+        run: |
+          var=${{github.ref_name}}
+          echo "issue=$(echo $var | sed -E 's#.*/##')">> "$GITHUB_OUTPUT"
+
+      # Falla cuando se modifique el pom ---------------------------------------------------------------------
+      - name: Generate bumping version as patch
+        id: patch
+        if: contains(steps.get_comment.outputs.comment, 'patch')
+        run: |
+          ./error.sh
+          
+
+      - name: Generate bumping version as minor
+        id: minor
+        if: contains(steps.get_comment.outputs.comment, 'minor')
+        run: |
+          ./error.sh
+
+      - name: Generate bumping version as major
+        id: major
+        if: contains(steps.get_comment.outputs.comment, 'major')
+        run: |
+          ./error.sh
+      # ------------------------------------------------------------------------------------------------------
+
+      #Posible fallo
+      - name: Compile the Project
+        id: compile
+        run: |
+          ./error.sh
+
+      #Posible fallo
+      - name: Build with Maven
+        id: package
+        run: |
+          ./error.sh
+
+      #Posible fallo
+      - name: Build and push
+        id: kaniko
+        run: |
+          ./error.sh
+
+      - name: Configure message notification
+        if: success() || failure()
+        id: get_comment
+        run: |
+          ejecuciones["patch"]="${{ steps.patch.conclusion}}"
+          ejecuciones["minor"]="${{ steps.minor.conclusion}}"
+          ejecuciones["major"]="${{ steps.major.conclusion}}"
+          ejecuciones["compilar"]="${{ steps.compile.conclusion}}"
+          ejecuciones["empaquetar"]="${{ steps.package.conclusion}}"
+          ejecuciones["kaniko"]="${{ steps.kaniko.conclusion}}" 
+          
+          # Recorrer todas las claves
+          for clave in "${!ejecuciones[@]}"; do
+            # Evaluar si la clave es "patch", "minor" o "major"
+            if [[ "$clave" == "patch" || "$clave" == "minor" || "$clave" == "major" ]]; then
+              # Evaluar si el valor de la clave es "failure"
+              if [[ "${ejecuciones[$clave]}" == "failure" ]]; then
+                echo "comment=El tipo de version $clave no se puede generar revise el archivo pom.xml o verifique el workflow" >> "$GITHUB_OUTPUT"
+              fi
+            elif [[ "$clave" == "compilar" || "$clave" == "empaquetar" ]]; then
+              if [[ "${ejecuciones[$clave]}" == "failure" ]]; then
+                echo "comment=Error al $clave, por favor verifique el workflow y solucione el error" >> "$GITHUB_OUTPUT"
+              fi
+            elif [[ "$clave" == "build"  ]]; then
+              if [[ "${ejecuciones[$clave]}" == "failure" ]]; then
+                echo "comment=Error al crear la imagen de Kaniko, revise el workflow y de ser necesario actualice las credenciales">> "$GITHUB_OUTPUT"
+              fi
+            fi
+          done
+
+
+      - name: Send notification
+        if: success() || failure()
+        run: |
+          echo "${{steps.get_comment.outputs.comment}}"
