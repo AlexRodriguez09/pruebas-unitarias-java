@@ -3,7 +3,7 @@ name: Regex
 on:
   push:
     branches:
-      - feat/ARQPD-41
+      - release/ARQPD-41
 
 jobs:
   comment:
@@ -12,9 +12,10 @@ jobs:
     steps:
       - name: Get context
         run: |
+          echo "Obteniendo release issue"
           echo ${{github.ref_name}}
 
-      - name: Get Issue
+      - name: Get issue
         id: get_issue
         run: |
           var=${{github.ref_name}}
