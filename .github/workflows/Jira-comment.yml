@@ -29,8 +29,8 @@ jobs:
         with:
           generate-branches-badge: true
           jacoco-csv-file: target/site/jacoco/jacoco.csv
-          fail-if-coverage-less-than: 50
-          fail-if-branches-less-than: 50
+          fail-if-coverage-less-than: 90
+          fail-if-branches-less-than: 90
 
       - name: Send notification
         if: success() || failure()
