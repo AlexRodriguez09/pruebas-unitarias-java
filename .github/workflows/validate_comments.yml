@@ -81,8 +81,8 @@ jobs:
               var=$"El tipo de version $clave no se puede generar revise el archivo pom.xml o verifique el workflow"
             elif [[ "$clave" == "compilar" || "$clave" == "empaquetar" ]]; then
               var=$"Error al $clave, por favor verifique el workflow y solucione el error"
-            elif [[ "$clave" == "build"  ]]; then
-              var=$"Error al crear la imagen de Kaniko, revise el workflow y de ser necesario actualice las credenciales"
+            elif [[ "$clave" == "kaniko"  ]]; then
+              var=$"Error al crear la imagen con Kaniko, revise el workflow y de ser necesario actualice las credenciales"
             fi
           fi
           done
