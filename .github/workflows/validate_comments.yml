@@ -69,18 +69,18 @@ jobs:
           ejecuciones["patch"]="${{ steps.patch.conclusion}}"
           ejecuciones["minor"]="${{ steps.minor.conclusion}}"
           ejecuciones["major"]="${{ steps.major.conclusion}}"
-          ejecuciones["compilar"]="${{ steps.compile.conclusion}}"
-          ejecuciones["empaquetar"]="${{ steps.package.conclusion}}"
+          ejecuciones["compile"]="${{ steps.compile.conclusion}}"
+          ejecuciones["package"]="${{ steps.package.conclusion}}"
           ejecuciones["kaniko"]="${{ steps.kaniko.conclusion}}" 
           
-          var=$"Empaquetado exitoso, se cargo la imagen en Harbor de manera correcta"
+          var=$"Empaquetado exitoso, se cargo la imagen en Harbor correctamente"
           
           for clave in "${!ejecuciones[@]}"; do
           if [[ "${ejecuciones[$clave]}" == "failure" ]]; then
             if [[ "$clave" == "patch" || "$clave" == "minor" || "$clave" == "major" ]]; then
               var=$"El tipo de version $clave no se puede generar revise el archivo pom.xml o verifique el workflow"
-            elif [[ "$clave" == "compilar" || "$clave" == "empaquetar" ]]; then
-              var=$"Error al $clave, por favor verifique el workflow y solucione el error"
+            elif [[ "$clave" == "compile" || "$clave" == "package" ]]; then
+              var=$"Error al momento de realizar $clave con maven, por favor verifique el workflow y solucione el error"
             elif [[ "$clave" == "kaniko"  ]]; then
               var=$"Error al crear la imagen con Kaniko, revise el workflow y de ser necesario actualice las credenciales"
             fi

@@ -166,33 +166,30 @@ jobs:
 
       - name: Configure message notification
         if: success() || failure()
-        id: get_comment
+        id: get_comment_jira
         run: |
           ejecuciones["patch"]="${{ steps.patch.conclusion}}"
           ejecuciones["minor"]="${{ steps.minor.conclusion}}"
           ejecuciones["major"]="${{ steps.major.conclusion}}"
-          ejecuciones["compilar"]="${{ steps.compile.conclusion}}"
-          ejecuciones["empaquetar"]="${{ steps.package.conclusion}}"
+          ejecuciones["compile"]="${{ steps.compile.conclusion}}"
+          ejecuciones["package"]="${{ steps.package.conclusion}}"
           ejecuciones["kaniko"]="${{ steps.kaniko.conclusion}}" 
           
-          # Recorrer todas las claves
+          var=$"Empaquetado exitoso, se cargo la imagen en Harbor correctamente"
+          
           for clave in "${!ejecuciones[@]}"; do
-            # Evaluar si la clave es "patch", "minor" o "major"
+          if [[ "${ejecuciones[$clave]}" == "failure" ]]; then
             if [[ "$clave" == "patch" || "$clave" == "minor" || "$clave" == "major" ]]; then
-              # Evaluar si el valor de la clave es "failure"
-              if [[ "${ejecuciones[$clave]}" == "failure" ]]; then
-                echo "comment=El tipo de version $clave no se puede generar revise el archivo pom.xml o verifique el workflow" >> "$GITHUB_OUTPUT"
-              fi
-            elif [[ "$clave" == "compilar" || "$clave" == "empaquetar" ]]; then
-              if [[ "${ejecuciones[$clave]}" == "failure" ]]; then
-                echo "comment=Error al $clave, por favor verifique el workflow y solucione el error" >> "$GITHUB_OUTPUT"
-              fi
-            elif [[ "$clave" == "build"  ]]; then
-              if [[ "${ejecuciones[$clave]}" == "failure" ]]; then
-                echo "comment=Error al crear la imagen de Kaniko, revise el workflow y de ser necesario actualice las credenciales">> "$GITHUB_OUTPUT"
-              fi
+              var=$"El tipo de version $clave no se puede generar revise el archivo pom.xml o verifique el workflow"
+            elif [[ "$clave" == "compile" || "$clave" == "package" ]]; then
+              var=$"Error al momento de realizar $clave con maven, por favor verifique el workflow y solucione el error"
+            elif [[ "$clave" == "kaniko"  ]]; then
+              var=$"Error al crear la imagen con Kaniko, revise el workflow y de ser necesario actualice las credenciales"
             fi
+          fi
           done
+          
+          echo "comment=$var" >> "$GITHUB_OUTPUT" 
 
 
       - name: Send notification
@@ -209,7 +206,7 @@ jobs:
                   {
                     "content": [
                     {
-                      "text": "${{steps.get_comment.outputs.comment}}",
+                      "text": "${{steps.get_comment_jira.outputs.comment}}",
                       "type": "text"
                     }
                   ],
