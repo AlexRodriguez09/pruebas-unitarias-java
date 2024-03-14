@@ -13,7 +13,7 @@ jobs:
       - name: Get the approval comment
         id: get_comment
         run: |
-          echo "comment=patch">> "$GITHUB_OUTPUT"
+          echo "comment=minor">> "$GITHUB_OUTPUT"
 
       - name: Show approval comment
         id: show_comment
@@ -30,7 +30,7 @@ jobs:
         id: patch
         if: contains(steps.get_comment.outputs.comment, 'patch')
         run: |
-          ./error.sh
+          echo "Funciona"
           
 
       - name: Generate bumping version as minor
