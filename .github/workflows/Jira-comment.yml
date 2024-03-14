@@ -46,7 +46,7 @@ jobs:
              echo "comment=Cobertura de código no ha sido aprobada \n \
               Resumen cobertura de código: \n \
                 Cobertura de código: $cobertura  %  \n \
-                Cobertura de ramificaciones: $branches  %  \n
+                Cobertura de ramificaciones: $branches  %  \n \
               Asegurese que la cobertura de código y ramificaciones cumpla con los requisitos establecidos">> "$GITHUB_OUTPUT"
           else
             cobertura=$(printf "%.1f" $(echo '${{ steps.jacoco.outputs.coverage }}*100' | bc))
