@@ -77,21 +77,7 @@ jobs:
           
           # Recorrer todas las claves
           for clave in "${!ejecuciones[@]}"; do
-            # Evaluar si la clave es "patch", "minor" o "major"
-            if [[ "$clave" == "patch" || "$clave" == "minor" || "$clave" == "major" ]]; then
-              # Evaluar si el valor de la clave es "failure"
-              if [[ "${ejecuciones[$clave]}" == "failure" ]]; then
-                var=$"El tipo de version $clave no se puede generar revise el archivo pom.xml o verifique el workflow"
-              fi
-            elif [[ "$clave" == "compilar" || "$clave" == "empaquetar" ]]; then
-              if [[ "${ejecuciones[$clave]}" == "failure" ]]; then
-                var=$"Error al $clave, por favor verifique el workflow y solucione el error"
-              fi
-            elif [[ "$clave" == "build"  ]]; then
-              if [[ "${ejecuciones[$clave]}" == "failure" ]]; then
-                var=$"Error al crear la imagen de Kaniko, revise el workflow y de ser necesario actualice las credenciales"
-              fi
-            fi
+            echo "$clave es igual ${ejecuciones[$clave]}"
           done
           echo "$var"
           echo "comment=$var" >> "$GITHUB_OUTPUT" 
