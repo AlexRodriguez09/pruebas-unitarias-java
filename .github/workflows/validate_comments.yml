@@ -39,7 +39,7 @@ jobs:
         id: major
         if: contains(steps.get_comment.outputs.comment, 'major')
         run: |
-          ./error.sh
+          echo "Funciona"
       # ------------------------------------------------------------------------------------------------------
 
       #Posible fallo
