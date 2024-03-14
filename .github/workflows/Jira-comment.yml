@@ -3,7 +3,7 @@ name: Jira comment
 on:
   push:
     branches:
-      - junit-mockito
+      - main
 
 jobs:
   unit-teting:
@@ -43,7 +43,7 @@ jobs:
           elif [ ${{ steps.jacoco.conclusion }} == failure ]; then
              echo "comment=Cobertura de código no ha sido aprobada \n \
               Asegurese que la cobertura de código y ramificaciones cumpla con los requisitos establecidos \n \
-              Cobertura de requerida: \n \
+              Cobertura requerida: \n \
                 Cobertura de código: 50%  \n \
                 Cobertura de ramificaciones: 50% ">> "$GITHUB_OUTPUT"
           else
