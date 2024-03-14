@@ -68,6 +68,8 @@ jobs:
         if: success() || failure()
         id: get_comment_jira
         run: |
+          declare -A ejecuciones
+          
           ejecuciones["patch"]="${{ steps.patch.conclusion}}"
           ejecuciones["minor"]="${{ steps.minor.conclusion}}"
           ejecuciones["major"]="${{ steps.major.conclusion}}"
