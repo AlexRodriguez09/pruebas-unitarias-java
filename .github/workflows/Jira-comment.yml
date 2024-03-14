@@ -41,13 +41,11 @@ jobs:
             Resumen: \n \
             Algunas de las pruebas unitarias no pasaron la ejecución">> "$GITHUB_OUTPUT"
           elif [ ${{ steps.jacoco.conclusion }} == failure ]; then
-             cobertura=$(printf "%.1f" $(echo '${{ steps.jacoco.outputs.coverage }}*100' | bc))
-             branches=$(printf "%.1f" $(echo '${{ steps.jacoco.outputs.branches }}*100' | bc))
              echo "comment=Cobertura de código no ha sido aprobada \n \
-              Resumen cobertura de código: \n \
-                Cobertura de código: $cobertura  %  \n \
-                Cobertura de ramificaciones: $branches  %  \n \
-              Asegurese que la cobertura de código y ramificaciones cumpla con los requisitos establecidos">> "$GITHUB_OUTPUT"
+              Asegurese que la cobertura de código y ramificaciones cumpla con los requisitos establecidos \n \
+              Cobertura de requerida: \n \
+                Cobertura de código: 50%  \n \
+                Cobertura de ramificaciones: 50% ">> "$GITHUB_OUTPUT"
           else
             cobertura=$(printf "%.1f" $(echo '${{ steps.jacoco.outputs.coverage }}*100' | bc))
              branches=$(printf "%.1f" $(echo '${{ steps.jacoco.outputs.branches }}*100' | bc))
