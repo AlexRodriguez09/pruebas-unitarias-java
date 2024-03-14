@@ -3,7 +3,7 @@ name: Regex
 on:
   push:
     branches:
-      - main
+      - feat/ARQPD-41
 
 jobs:
   comment:
@@ -13,3 +13,13 @@ jobs:
       - name: Get context
         run: |
           echo ${{github.ref_name}}
+
+      - name: Get Issue
+        id: get_issue
+        run: |
+          var=${{github.ref_name}}
+          echo "issue=$(echo $var | sed -E 's#.*/##')">> "$GITHUB_OUTPUT"
+
+      - name: Print Issue
+        run: |
+          echo "${{steps.get_issue.outputs.issue}}"
