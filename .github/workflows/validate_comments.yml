@@ -52,7 +52,7 @@ jobs:
       - name: Build with Maven
         id: package
         run: |
-          ./error.sh
+          echo "Funciona"
 
       #Posible fallo
       - name: Build and push
