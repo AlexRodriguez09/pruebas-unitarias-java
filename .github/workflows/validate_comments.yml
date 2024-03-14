@@ -58,7 +58,7 @@ jobs:
       - name: Build and push
         id: kaniko
         run: |
-          ./error.sh
+          echo "Funciona"
 
       - name: Configure message notification
         if: success() || failure()
