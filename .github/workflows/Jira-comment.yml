@@ -41,16 +41,20 @@ jobs:
             Resumen: \n \
             Algunas de las pruebas unitarias no pasaron la ejecución">> "$GITHUB_OUTPUT"
           elif [ ${{ steps.jacoco.conclusion }} == failure ]; then
+             cobertura=$(echo '${{ steps.jacoco.outputs.coverage }}*100' | bc)
+             branches=$(echo '${{ steps.jacoco.outputs.branches }}*100' | bc)
              echo "comment=Cobertura de código no ha sido aprobada \n \
               Resumen cobertura de código: \n \
-                Cobertura de código: ${{ steps.jacoco.outputs.coverage }} \n \
-                Cobertura de ramificaciones: ${{ steps.jacoco.outputs.branches }} \n
+                Cobertura de código: $cobertura  \n \
+                Cobertura de ramificaciones: $branches  \n
               Asegurese que la cobertura de código y ramificaciones cumpla con los requisitos establecidos">> "$GITHUB_OUTPUT"
           else
-             echo "comment=Pruebas unitarias exitosas, cumplen con los criterios de aceptación. \
+            cobertura=$(echo '${{ steps.jacoco.outputs.coverage }}*100' | bc)
+             branches=$(echo '${{ steps.jacoco.outputs.branches }}*100' | bc) 
+             echo "comment=Pruebas unitarias exitosas, cumplen con los criterios de aceptación \n \
              Resumen cobertura de código: \n \
-             Cobertura de código: ${{ steps.jacoco.outputs.coverage }} \n \
-             Cobertura de ramificaciones: ${{ steps.jacoco.outputs.branches }}" >> "$GITHUB_OUTPUT"
+             Cobertura de código: $cobertura \n \
+             Cobertura de ramificaciones: $branches" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Curl
