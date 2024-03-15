@@ -15,3 +15,4 @@ jobs:
           var=${{github.base_ref}}
           echo "$var"
           echo "issue=$(echo $var | sed -E 's#.*/##')">> "$GITHUB_OUTPUT"
+          echo "${{ github.event.pull_request.head.ref }}
