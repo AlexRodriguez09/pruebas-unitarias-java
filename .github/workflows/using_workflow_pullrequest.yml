@@ -1,0 +1,13 @@
+name: Cahnge prove pull request
+
+on:
+  pull_request_target:
+    types:
+      - closed
+    branches:
+      - prove-request
+
+
+jobs:
+  build_ci:
+    uses: AlexRodriguez09/pruebas-unitarias-java/.github/workflows/ref_pull_request.yml@pull-request
